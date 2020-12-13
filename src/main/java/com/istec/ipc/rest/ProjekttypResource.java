@@ -1,7 +1,7 @@
-package org.acme.datasource;
+package com.istec.ipc.rest;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -10,30 +10,22 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.istec.ipc.projekte.Projekttyp;
+import com.istec.ipc.projekte.ProjekttypDB;
+
 @Path("/projekttyp")
 public class ProjekttypResource {
 
     @Inject
     ProjekttypDB db;
 
-    @Path("/create")
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String create() {
-        try {
-            db.createTable();
-            db.insert();
-            return "ok.";
-        } catch (SQLException e) {
-            return e.toString();
-        }
-    }
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public ArrayList<Projekttyp> findAll() {
+    public Vector<Projekttyp> findAll() {
         try {
-            return db.findProjekttypen();
+            Vector<Projekttyp> list = db.getAlleTypen();
+            System.out.println("projekttypen: "+list);
+            return list;
         } catch (SQLException e) {
             System.err.println(e);
             return null;
@@ -45,11 +37,17 @@ public class ProjekttypResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Projekttyp find(@PathParam("id") int id ) {
         try {
-            return db.findProjekttyp(id);
+            Vector<Projekttyp> list = db.getAlleTypen();
+            for(Projekttyp p: list){
+                if (p.getProjekttypID() == id) {
+                    System.out.println(p);
+                    return p;
+                }
+            }
         } catch (SQLException e) {
             System.err.println(e);
-            return null;
         }
+        return null;
     }
 
 }
