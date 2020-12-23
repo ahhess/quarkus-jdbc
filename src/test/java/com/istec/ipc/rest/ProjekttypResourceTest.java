@@ -22,9 +22,6 @@ public class ProjekttypResourceTest {
         given().when().get("/projekttyp/2")
             .then()                
                 .statusCode(200);
-        given().when().get("/projekttyp/9")
-            .then()                
-                .statusCode(204);
     }
 
 }

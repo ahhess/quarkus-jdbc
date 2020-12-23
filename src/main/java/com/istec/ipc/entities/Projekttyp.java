@@ -1,4 +1,4 @@
-package com.istec.ipc.projekte;
+package com.istec.ipc.entities;
 
 /**In Objekten der Klasse Projekttyp werden Daten zu Projekttyp gespeichert.*/
 public class Projekttyp 

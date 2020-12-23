@@ -1,7 +1,8 @@
 package com.istec.ipc.rest;
 
 import java.sql.SQLException;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -10,24 +11,25 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.istec.ipc.projekte.Projekttyp;
-import com.istec.ipc.projekte.ProjekttypDB;
+import com.istec.ipc.entities.Projekttyp;
+import com.istec.ipc.sql.ProjekttypDB;
 
 @Path("/projekttyp")
 public class ProjekttypResource {
+    private static Logger logger = Logger.getLogger(ProjekttypResource.class.getName());
 
     @Inject
     ProjekttypDB db;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Vector<Projekttyp> findAll() {
+    public ArrayList<Projekttyp> findAll() {
         try {
-            Vector<Projekttyp> list = db.getAlleTypen();
-            System.out.println("projekttypen: "+list);
+            ArrayList<Projekttyp> list = db.getAlleTypen();
+            logger.info("projekttypen: " + list);
             return list;
         } catch (SQLException e) {
-            System.err.println(e);
+            logger.severe(e.toString());
             return null;
         }
     }
@@ -35,19 +37,14 @@ public class ProjekttypResource {
     @Path("/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Projekttyp find(@PathParam("id") int id ) {
+    public Projekttyp find(@PathParam("id") int id) {
         try {
-            Vector<Projekttyp> list = db.getAlleTypen();
-            for(Projekttyp p: list){
-                if (p.getProjekttypID() == id) {
-                    System.out.println(p);
-                    return p;
-                }
-            }
+            Projekttyp p = db.getProjekttyp(id);
+            logger.info(p.toString());
+            return p;
         } catch (SQLException e) {
-            System.err.println(e);
+            logger.severe(e.toString());
         }
         return null;
     }
-
 }
