@@ -2,6 +2,3 @@
 !target/*-runner
 !target/*-runner.jar
 !target/lib/*
-!src/*
-!.mvn/*
-!mvnw
