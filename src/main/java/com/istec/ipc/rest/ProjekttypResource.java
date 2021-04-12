@@ -40,11 +40,13 @@ public class ProjekttypResource {
     public Projekttyp find(@PathParam("id") int id) {
         try {
             Projekttyp p = db.getProjekttyp(id);
-            logger.info(p.toString());
-            return p;
+            if (p!=null) {
+                logger.info(p.toString());
+                return p;
+            }
         } catch (SQLException e) {
             logger.severe(e.toString());
         }
-        return null;
+        return new Projekttyp();
     }
 }
